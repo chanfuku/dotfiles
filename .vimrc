@@ -88,3 +88,7 @@ let NERDTreeShowHidden = 1
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 " 入力モードからコマンドモードへのショートカット" 
 inoremap <silent> jj <ESC>
+" tn 次のタブ
+map <silent> tn :tabnext<CR>
+" tp 前のタブ
+map <silent> tp :tabprevious<CR>
