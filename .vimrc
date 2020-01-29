@@ -55,8 +55,8 @@ filetype plugin on
 
 if &term=="xterm"
      set t_Co=8
-     set t_Sb=[4%dm
-     set t_Sf=[3%dm
+     set t_Sb=[4%dm
+     set t_Sf=[3%dm
 endif
 
 " Don't wake up system with blinking cursor:
@@ -112,11 +112,43 @@ NeoBundle 'lunaru/vim-twig'
 " みんな大好きnerdtree
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jistr/vim-nerdtree-tabs'
+" 検索用のプラグイン
+" NeoBundle 'mileszs/ack.vim'
+NeoBundle 'rking/ag.vim'
+" インデント可視化
+NeoBundle 'nathanaelkane/vim-indent-guides'
+" タグ自動生成
+NeoBundle 'szw/vim-tags'
+" vim-tags
+au BufNewFile,BufRead *.php let g:vim_tags_project_tags_command = "sudo ctags --languages=php -f ~/www/air/.tags.bak 2>/dev/null &"
+
+" vue.jsのシンタックスハイライト
+NeoBundle 'posva/vim-vue'
+
+let g:syntastic_check_on_open=0 "ファイルを開いたときはチェックしない
+let g:syntastic_check_on_save=1 "保存時にはチェック
+let g:syntastic_check_on_wq = 0 " wqではチェックしない
+let g:syntastic_auto_loc_list=1 "エラーがあったら自動でロケーションリストを開く
+let g:syntastic_loc_list_height=6 "エラー表示ウィンドウの高さ
+let g:syntastic_error_symbol='✗'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_style_warning_symbol = '⚠'
+set statusline+=%#warningmsg# "エラーメッセージの書式
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_javascript_checkers = ['eslint'] "ESLintを使う
+let g:syntastic_mode_map = {
+      \ 'mode': 'active',
+      \ 'active_filetypes': ['javascript'],
+      \ 'passive_filetypes': []
+      \ }
+
 
 " vimのlua機能が使える時だけ以下のVimプラグインをインストールする
 if has('lua')
     " コードの自動補完
-    NeoBundle 'Shougo/neocomplete.vim'
+    NeoBundle 'Shougo/neocomplete'
     " スニペットの補完機能
     NeoBundle "Shougo/neosnippet"
     " スニペット集
@@ -134,9 +166,10 @@ NeoBundleCheck
 "----------------------------------------------------------
 " カラースキーム
 "----------------------------------------------------------
-if neobundle#is_installed('molokai')
-    colorscheme molokai " カラースキームにmolokaiを設定する
-endif
+" if neobundle#is_installed('molokai')
+"     colorscheme molokai " カラースキームにmolokaiを設定する
+" endif
+colorscheme spring-night
 
 set t_Co=256 " iTerm2など既に256色環境なら無くても良い
 syntax enable " 構文に色を付ける
@@ -240,7 +273,7 @@ endif
 "----------------------------------------------------------
 " neocomplete・neosnippetの設定
 "----------------------------------------------------------
-if neobundle#is_installed('neocomplete.vim')
+if neobundle#is_installed('neocomplete')
     " Vim起動時にneocompleteを有効にする
     let g:neocomplete#enable_at_startup = 1
     " smartcase有効化. 大文字が入力されるまで大文字小文字の区別を無視する
@@ -288,6 +321,7 @@ let g:ctrlp_match_window = 'order:ttb,min:20,max:20,results:100' " マッチウ�
 let g:ctrlp_show_hidden = 1 " .(ドット)から始まるファイルも検索対象にする
 let g:ctrlp_types = ['fil'] "ファイル検索のみ使用
 let g:ctrlp_extensions = ['funky', 'commandline'] " CtrlPの拡張として「funky」と「commandline」を使用
+let g:ctrlp_root_markers = ['.ctrlp.bak']
 
 " CtrlPCommandLineの有効化
 command! CtrlPCommandLine call ctrlp#init(ctrlp#commandline#id())
@@ -329,3 +363,11 @@ let NERDTreeWinSize=50
 vnoremap <silent> p "0p
 " クリップボードにコピー
 set clipboard=unnamed,autoselect
+" swapファイルの出力先
+set directory=~/.vim/tmp
+" インデント可視化
+let g:indent_guides_enable_on_vim_startup = 1
+" tagを有効にする(air)
+set tags=~/www/air/.tags.bak
+" tagsジャンプの時に複数ある時は一覧表示
+nnoremap <C-]> g<C-]>
