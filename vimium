@@ -1,0 +1,15 @@
+nsert your preferred key mappings here.
+# 戻る
+map h goBack
+# 進む
+map l goForward
+# 新規タブ作成をキャンセル
+unmap t
+# 前のタブ
+map tp previousTab
+# 次のタブ
+map tn nextTab
+# 最初のタブ
+map t1 firstTab
+# 最後のタブ
+map t0 lastTab
