@@ -1,7 +1,4 @@
 # .files
-hogefuga
-commit インデックスの状態を記録する
-pull リモートリポジトリの内容を取得する
-hogehoge
 
-hotfix
+### settings.json
+/Users/{your-username}/Library/Application\ Support/Code/User/settings.json
