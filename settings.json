@@ -1,0 +1,12 @@
+{
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "editor.tabSize": 2,
+    "workbench.editor.enablePreview": false,
+    "files.insertFinalNewline": true,
+    "vim.useSystemClipboard": true
+}
