@@ -11,6 +11,8 @@ set viminfo='20,\"50	" read/write a .viminfo file, don't store more
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 
+set modifiable
+
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
   augroup redhat
@@ -96,7 +98,7 @@ NeoBundle 'Yggdroot/indentLine'
 " 末尾の全角半角空白文字を赤くハイライト
 NeoBundle 'bronson/vim-trailing-whitespace'
 " 構文エラーチェック
-NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'scrooloose/syntastic'
 " 多機能セレクタ
 NeoBundle 'ctrlpvim/ctrlp.vim'
 " CtrlPの拡張プラグイン. 関数検索
@@ -109,6 +111,8 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'pmsorhaindo/syntastic-local-eslint.vim'
 " テンプレートエンジンtwigのシンタックスハイライト
 NeoBundle 'lunaru/vim-twig'
+" テンプレートエンジンbladeのシンタックスハイライト
+NeoBundle 'xsbeats/vim-blade'
 " みんな大好きnerdtree
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jistr/vim-nerdtree-tabs'
@@ -117,6 +121,8 @@ NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'rking/ag.vim'
 " インデント可視化
 NeoBundle 'nathanaelkane/vim-indent-guides'
+" Tig <-> Vim switching プラグイン
+NeoBundle 'iberianpig/tig-explorer.vim'
 " タグ自動生成
 NeoBundle 'szw/vim-tags'
 " vim-tags
@@ -125,19 +131,19 @@ au BufNewFile,BufRead *.php let g:vim_tags_project_tags_command = "sudo ctags --
 " vue.jsのシンタックスハイライト
 NeoBundle 'posva/vim-vue'
 
-let g:syntastic_check_on_open=0 "ファイルを開いたときはチェックしない
-let g:syntastic_check_on_save=1 "保存時にはチェック
-let g:syntastic_check_on_wq = 0 " wqではチェックしない
-let g:syntastic_auto_loc_list=1 "エラーがあったら自動でロケーションリストを開く
-let g:syntastic_loc_list_height=6 "エラー表示ウィンドウの高さ
-let g:syntastic_error_symbol='✗'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_style_warning_symbol = '⚠'
-set statusline+=%#warningmsg# "エラーメッセージの書式
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_javascript_checkers = ['eslint'] "ESLintを使う
+" let g:syntastic_check_on_open=0 "ファイルを開いたときはチェックしない
+" let g:syntastic_check_on_save=1 "保存時にはチェック
+" let g:syntastic_check_on_wq = 0 " wqではチェックしない
+" let g:syntastic_auto_loc_list=1 "エラーがあったら自動でロケーションリストを開く
+" let g:syntastic_loc_list_height=6 "エラー表示ウィンドウの高さ
+" let g:syntastic_error_symbol='✗'
+" let g:syntastic_style_error_symbol = '✗'
+" let g:syntastic_warning_symbol = '⚠'
+" let g:syntastic_style_warning_symbol = '⚠'
+" set statusline+=%#warningmsg# "エラーメッセージの書式
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_javascript_checkers = ['eslint'] "ESLintを使う
 let g:syntastic_mode_map = {
       \ 'mode': 'active',
       \ 'active_filetypes': ['javascript'],
@@ -200,11 +206,11 @@ set history=5000 " 保存するコマンド履歴の数
 " タブ・インデント
 "----------------------------------------------------------
 set expandtab " タブ入力を複数の空白入力に置き換える
-set tabstop=4 " 画面上でタブ文字が占める幅
-set softtabstop=4 " 連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
+set tabstop=2 " 画面上でタブ文字が占める幅
+set softtabstop=2 " 連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
 set autoindent " 改行時に前の行のインデントを継続する
 set smartindent " 改行時に前の行の構文をチェックし次の行のインデントを増減する
-set shiftwidth=4 " smartindentで増減する幅
+set shiftwidth=2 " smartindentで増減する幅
 
 "----------------------------------------------------------
 " 文字列検索
@@ -308,9 +314,9 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
 " Javascript用. 構文エラーチェックにESLintを使用
-let g:syntastic_javascript_checkers=['eslint']
+" let g:syntastic_javascript_checkers=['eslint']
 " Javascript以外は構文エラーチェックをしない
-let g:syntastic_mode_map = { 'mode': 'passive',
+" let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['javascript'],
                            \ 'passive_filetypes': [] }
 
@@ -364,10 +370,83 @@ vnoremap <silent> p "0p
 " クリップボードにコピー
 set clipboard=unnamed,autoselect
 " swapファイルの出力先
-set directory=~/.vim/tmp
+" set directory=~/.vim/tmp
+" バックアップファイルの出力先
+" set backupdir=~/.vim/tmp
+" undoファイルの出力先
+" set undodir=~/.vim/tmp
+" swpファイル出力無効
+set noswapfile
+" バックアップファイル出力無効
+set nobackup
+" undoファイル出力無効
+set noundofile
 " インデント可視化
 let g:indent_guides_enable_on_vim_startup = 1
 " tagを有効にする(air)
 set tags=~/www/air/.tags.bak
 " tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]>
+
+" 補完してくれるddc.vimをインストール
+call plug#begin()
+
+Plug 'Shougo/ddc.vim'
+Plug 'vim-denops/denops.vim'
+
+" Install your sources
+Plug 'Shougo/ddc-around'
+
+" Install your filters
+Plug 'Shougo/ddc-matcher_head'
+Plug 'Shougo/ddc-sorter_rank'
+
+call plug#end()
+
+" Customize global settings
+" Use around source.
+" https://github.com/Shougo/ddc-around
+call ddc#custom#patch_global('sources', ['around'])
+
+" Use matcher_head and sorter_rank.
+" https://github.com/Shougo/ddc-matcher_head
+" https://github.com/Shougo/ddc-sorter_rank
+call ddc#custom#patch_global('sourceOptions', {
+      \ '_': {
+      \   'matchers': ['matcher_head'],
+      \   'sorters': ['sorter_rank']},
+      \ })
+
+" Change source options
+call ddc#custom#patch_global('sourceOptions', {
+      \ 'around': {'mark': 'A'},
+      \ })
+call ddc#custom#patch_global('sourceParams', {
+      \ 'around': {'maxSize': 500},
+      \ })
+
+" Customize settings on a filetype
+call ddc#custom#patch_filetype(['c', 'cpp'], 'sources', ['around', 'clangd'])
+call ddc#custom#patch_filetype(['c', 'cpp'], 'sourceOptions', {
+      \ 'clangd': {'mark': 'C'},
+      \ })
+call ddc#custom#patch_filetype('markdown', 'sourceParams', {
+      \ 'around': {'maxSize': 100},
+      \ })
+
+" Mappings
+
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+\ ddc#map#pum_visible() ? '<C-n>' :
+\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+\ '<TAB>' : ddc#map#manual_complete()
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
+
+" Use ddc.
+call ddc#enable()
+
+" 編集ファイルアップデート自動読み込み
+set autoread
